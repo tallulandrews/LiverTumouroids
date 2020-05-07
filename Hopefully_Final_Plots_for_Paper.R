@@ -1,4 +1,4 @@
-source("~/Collaborations/LiverOrganoids/Laura_Pipeline/0_ColourScheme.R")
+source("0_ColourScheme.R")
 
 
 
@@ -11,65 +11,23 @@ cell_coords <- list();
 
 dimred_name <- "dm"
 
-sce_objs <- list(CCA1="CCA1_manual_SC3.rds",
-		  CCA5="CCA5_manual_SC3.rds",
-		  HCC6="HCC6_manual_SC3.rds",
-		  HCC10="HCC10_manual_SC3.rds",
-		  HCC23="HCC23_manual_SC3.rds",
-		  HCC24="HCC24_manual_SC3.rds",
-		  D3DM="D3DM_manual_SC3.rds",
-		  D3EM="D3EM_manual_SC3.rds",
-		  D9DM="D9DM_manual_SC3.rds",
-		  D9EM="D9EM_manual_SC3.rds")
+sce_objs <- list(CCA1="CCA1_manual_SC3.rds")
 
-dim_reduction <- list(CCA1="CCA1_1000_Visualizations_dims.rds",
-		      CCA5="CCA5_1000_Visualizations_dims.rds",
-		      HCC6="HCC6_1000_Visualizations_dims.rds",
-		      HCC10="HCC10_1000_Visualizations_dims.rds",
-		      HCC23="HCC23_1000_Visualizations_dims.rds",
-		      HCC24="HCC24_1000_Visualizations_dims.rds",
-		      D3DM="D3DM_1000_Visualizations_dims.rds",
-		      D3EM="D3EM_1000_Visualizations_dims.rds",
-		      D9DM="D9DM_1000_Visualizations_dims.rds",
-		      D9EM="D9EM_1000_Visualizations_dims.rds")
+dim_reduction <- list(CCA1="CCA1_1000_Visualizations_dims.rds")
 
-line_specific_genes <- list(CCA1=c("ATP1B3", "DPAGT1", "CLDN2", "AQP5", "EZH2", "RECQL4", "TRAIP", "LMNB1", "CDCA7L", "IQGAP3", "DDIAS", "CA9", "NDRG1", "ATP2B4", "DAPK1", "HIST1H2AC"),
-			    CCA5=c("HMGB2", "LDHA", "CD81", "ANXA4"),
-			    HCC6=c("MCM7", "GAL", "CST3", "IGFBP3"),
-			    HCC23=c("HMGB2", "F10", "SERPINA1", "CBS"),
-			    HCC10=c("HMGB2","CEBPA","ABCA1","AFP"),
-			    HCC24=c("ZWINT","ALB","KLK1","TUSC3"),
-			    D3DM=c("CDK2AP1","CD24","TESC","P4HA1"),
-			    D3EM=c("YWHAB","ENO2","BTG1","MIF"),
-			    D9DM=c("CEACAM6","SERPINA1","NDRG1","KCNT1"),
-			    D9EM=c("EIF5A","HERPUD1","CA9","EFNA1")
-			) # genes for dotplots
+line_specific_genes <- list(CCA1=c("ATP1B3", "DPAGT1", "CLDN2", 
+	"AQP5", "EZH2", "RECQL4", "TRAIP", "LMNB1", "CDCA7L", "IQGAP3", 
+	"DDIAS", "CA9", "NDRG1", "ATP2B4", "DAPK1", "HIST1H2AC")) # genes for dotplots
 
+heatmap_genes <- list(CCA1=c("CALM1", "DEGS2", "FASN", "FUT2", "MAP1LC3B", "ROIK3", 
+	"HERPUD1", "EIF5AL1", "EIF5A", "CCT3", "HSPE1", "GOT2", "C1QBP", "LDHB", "MAD2L1",
+	"ZWINT", "ASF1B", "CDK1", "RRM2", "NCAPH", "FEN1", "TYMS", "ANLN", "HMGB2", "SCD",
+	"SCD", "NDRG1","ERO1A", "NDUFA4L2", "P4HA1", "QSOX1", "BNIP3L", "FXYD3"))
 
-line_specific_groups <- list(CCA1=c("Progenitor", "Differentiated1", "TICs", "Differentiated2"),
-			    CCA5=c("Chol", "Stress", "CSC", "Unk", "Hep"),
-			    HCC6=c("Prog1", "Stress", "Prog2", "CSC"),
-			    HCC23=c("CSC", "Clot-Hep", "Prog"),
-			    HCC10=c("Prog1", "Hep", "CSC", "iHep", "Stress", "Prog2"),
-			    HCC24=c("Clot-Hep", "Prog1", "Prog2", "CSC", "Hep1", "Hep2"),
-			    D3DM=c("Chol", "Prog", "Stress", "Cycling"),
-			    D3EM=c("Stress", "Chol1", "Chol2", "Prog"),
-			    D9DM=c("Prog1", "Prog2", "Prog3", "Clot-Hep", "Chol1", "Chol2"),
-			    D9EM=c("Chol1", "Cycling", "Chol2")
-			) # cluster names
-			
+line_specific_groups <- list(CCA1=c("Progenitor", "Differentiated1", 
+			"TICs", "Differentiated2")) # cluster names
 
-scmap_results <- list(CCA1="CCA1_scmap_output.rds",
-		      CCA5="CCA5_scmap_output.rds",
-		      HCC10="HCC10_scmap_output.rds",
-		      HCC6="HCC6_scmap_output.rds",
-		      HCC23="HCC23_scmap_output.rds",
-		      HCC24="HCC24_scmap_output.rds",
-		      D3DM="D3DM_scmap_output.rds",
-		      D3EM="D3EM_scmap_output.rds",
-		      D9DM="D9DM_scmap_output.rds",
-		      D9EM="D9EM_scmap_output.rds"
-		)
+scmap_results <- list(CCA1="CCA1_scmap_output.rds")
 
 
 for (i in names(sce_objs)) {
@@ -114,21 +72,87 @@ for (i in names(sce_objs)) {
 	
 	# ScatterPlot
 	pdf(paste(this_name, "DimRedScatter.pdf", sep="_"), width=6, height=6)
-	plot(coords$x[cell_keep], coords$y[cell_keep], col=cell_colours, pch=16, xlab="Dim 1", ylab="Dim 2")
+	plot(coords$x[cell_keep], coords$y[cell_keep], col=cell_colours, 
+		pch=16, xlab="DM_1", ylab="DM_2")
+	dev.off()
+	blank_plot <- function() {
+		tmp <- par("mar")
+		par(mar=c(0,0,0,0))
+		plot(1,1, col="white", xlim=c(0,1), ylim=c(0,1), xaxt="n", yaxt="n", main="", xlab="", ylab="", bty="n")
+		par(mar=tmp)
+	}
+	pdf(paste(this_name, "DimRedScatter_Legend.pdf", sep="_"), width=6, height=6)
+	blank_plot();
+	my_order <- order(name_map, decreasing=T)
+	legend("center", name_map[my_order], col=palette[my_order], pch=16, cex=2, bty="n")
 	dev.off()
 
-	# DotPlot
+
+	# Marker - DotPlot
 	require("ggplot2")
-	pdf(paste(this_name, "MarkerDot.pdf", sep="_"))
 	seurat <- as.Seurat(SCE, data=expr_type)
-	a<-DotPlot(seurat, features=line_specific_genes[[i]], group.by="named_clusters")
-	plot(a)
+	thing <- cbind(coords$x, coords$y)
+	thing <- apply(thing, 2, function(x){
+		x=x-min(x); x<-x/max(x)*2; x<-x-1})
+	rownames(thing) <- colnames(SCE)
+	colnames(thing) <- c("DM1", "DM2")
+	seurat[["dm"]] <- CreateDimReducObject(embeddings = thing, key = "DM", assay = DefaultAssay(seurat))
+	
+
+	pdf(paste(this_name, "MarkerDot.pdf", sep="_"), width=8, height=5)
+	a<-DotPlot(seurat, 
+		features=line_specific_genes[[i]], 
+		group.by="named_clusters")+
+		theme(axis.text.x = element_text(angle = 90, hjust = 1))
+	plot(a+labs(x="Genes", y="Type"))
+	dev.off()
+	# Marker - Scatters
+	pdf(paste(this_name, "MarkerScatter.pdf", sep="_"), width=16, height=14)
+	FeaturePlot(seurat, reduction="dm", features = line_specific_genes[[i]])
+	dev.off()
+
+	get_top_markers <- function(cluster, nmarks=5) {
+		tmp <- FindMarkers(seurat, ident.1=cluster, group.by="named_clusters")
+		tmp$detect_diff <- tmp$pct.1-tmp$pct.2
+		tmp <- tmp[tmp$avg_logFC > 0 & tmp$detect_diff > 0,]
+		return(rownames(tmp)[1:nmarks])
+	}
+	heatmap_genes <- c();
+	for (n in unique(seurat@meta.data$named_clusters)) {
+		heatmap_genes <- c(heatmap_genes, get_top_markers(n))
+	}
+
+	pdf(paste(this_name, "MarkerHeatmap.pdf", sep="_"), width=14, height=8)
+	seurat <- ScaleData(seurat)
+	my_order <- order(name_map, decreasing=F)
+	DoHeatmap(seurat, features = c(heatmap_genes,line_specific_genes[[i]]),
+		 size = 3, group.by = "named_clusters", group.colors=palette[my_order])
+	dev.off()
+	
+	dat<- seurat@assays$RNA@data[rownames(seurat) %in% line_specific_genes[[i]],]
+	dat <- data.frame(t(dat), seurat@meta.data$named_clusters)
+	colnames(dat)[ncol(dat)] <- "type"
+	
+	# Marker Violin
+	ggplot_palette <- palette
+	names(ggplot_palette) <- name_map
+	marker_violins <- list();
+	for (gene in line_specific_genes[[i]]) {
+		
+	a <- ggplot(dat, aes_string(x="type", y=gene, fill="type"))+geom_violin()+scale_fill_manual(values=ggplot_palette)+ ggtitle(gene)+theme(plot.title = element_text(face="bold", size=30,hjust = 0.5 ), panel.grid.major = element_blank(), panel.grid.minor = element_blank(),
+	panel.background = element_blank(), axis.line = element_line(colour = "black"))
+	marker_violins[[gene]] <- a;
+	}
+	require(ggpubr)
+	theme_set(theme_pubr())
+	pdf(paste(this_name, "MarkerViolins.pdf", sep="_"), width=16, height=16)
+	ggarrange(plotlist=marker_violins)
 	dev.off()
 
 	# ScatterPlot + scmap results
-	pdf(paste(this_name, "ScmapScatter.pdf", sep="_"), width=6, height=6)
 	scmap_out <- readRDS(scmap_results[[i]])
-	plot(coords$x, coords$y, col="black", bg=scmap_out$scmap_cell_Cols, pch=21);
+	pdf(paste(this_name, "ScmapScatter.pdf", sep="_"), width=6, height=6)
+	plot(coords$x, coords$y, col="black", bg=scmap_out$scmap_cell_Cols, pch=21, xlab="DM_1", ylab="DM_2");
 	lgend <- unique(scmap_out$scmap_cluster_labs);
 	lgend_col <- unique(scmap_out$scmap_cell_Cols);
 	dev.off()
