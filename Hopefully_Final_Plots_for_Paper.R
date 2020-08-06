@@ -1,4 +1,4 @@
-source("0_ColourScheme.R")
+source("/nfs/users/nfs_t/ta6/Collaborations/LiverOrganoids/Figures/0_ColourScheme.R")
 
 
 
@@ -11,23 +11,29 @@ cell_coords <- list();
 
 dimred_name <- "dm"
 
-sce_objs <- list(CCA1="CCA1_manual_SC3.rds")
+sce_objs <- list(CCA1="CCA1_manual_SC3.rds", HCC10="HCC10_manual_SC32.rds")
 
-dim_reduction <- list(CCA1="CCA1_1000_Visualizations_dims.rds")
+dim_reduction <- list(CCA1="CCA1_1000_Visualizations_dims.rds",
+			HCC10="HCC10_1500_Visualizations_dims.rds")
 
 line_specific_genes <- list(CCA1=c("ATP1B3", "DPAGT1", "CLDN2", 
 	"AQP5", "EZH2", "RECQL4", "TRAIP", "LMNB1", "CDCA7L", "IQGAP3", 
-	"DDIAS", "CA9", "NDRG1", "ATP2B4", "DAPK1", "HIST1H2AC")) # genes for dotplots
+	"DDIAS", "CA9", "NDRG1", "ATP2B4", "DAPK1", "HIST1H2AC"),
+	  		 HCC10=c("PLK4", "AURKB", "MKI67", "EZH2", "LMNB1", "HMGB2", "KPNA2", "LRR1", "TTK", "SLC1A5", "SLC19A1", "SLC1A4", "SLCO4A1", "GPM6A", "MXD4", "AFM", "ATP5L2", "GLI4", "SLC29A4", "HEXIM1", "PRRG3", "PBXIP1", "CAPNS1", "CLDN11", "HMGCS2", "MLXIPL", "ABAT", "ADH4")) # genes for dotplots
 
 heatmap_genes <- list(CCA1=c("CALM1", "DEGS2", "FASN", "FUT2", "MAP1LC3B", "ROIK3", 
 	"HERPUD1", "EIF5AL1", "EIF5A", "CCT3", "HSPE1", "GOT2", "C1QBP", "LDHB", "MAD2L1",
 	"ZWINT", "ASF1B", "CDK1", "RRM2", "NCAPH", "FEN1", "TYMS", "ANLN", "HMGB2", "SCD",
-	"SCD", "NDRG1","ERO1A", "NDUFA4L2", "P4HA1", "QSOX1", "BNIP3L", "FXYD3"))
+	"SCD", "NDRG1","ERO1A", "NDUFA4L2", "P4HA1", "QSOX1", "BNIP3L", "FXYD3"),
+                     HCC10=c("PLK4", "AURKB", "MKI67", "EZH2", "LMNB1", "HMGB2", "KPNA2", "LRR1", "TTK", "SLC1A5", "SLC19A1", "SLC1A4", "SLCO4A1", "GPM6A", "MXD4", "AFM", "ATP5L2", "GLI4", "SLC29A4", "HEXIM1", "PRRG3", "PBXIP1", "CAPNS1", "CLDN11", "HMGCS2", "MLXIPL", "ABAT", "ADH4"))
 
 line_specific_groups <- list(CCA1=c("Progenitor", "Differentiated1", 
-			"TICs", "Differentiated2")) # cluster names
+			"TICs", "Differentiated2"),
+			HCC10=c("TICs", "Progenitor", "Differentiated")) # cluster names
 
-scmap_results <- list(CCA1="CCA1_scmap_output.rds")
+scmap_results <- list(CCA1="CCA1_scmap_output.rds", 
+		      HCC10="HCC10_scmap_output.rds")
+
 
 
 for (i in names(sce_objs)) {
