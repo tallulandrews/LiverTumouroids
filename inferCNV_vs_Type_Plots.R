@@ -74,8 +74,15 @@ for (t in names(SCE_files)) {
 	down <- down[!exclude]
 	sce <- sce[,!exclude]
 
-	pdf(paste(t, call_type, "CNV_by_celltype_relab_6Aug2020.pdf", sep="_"), width=9, height=6)
+	tot_to_save <- data.frame(nCNV=c(up, down),
+			 dir=c(rep("up", length(up)), rep("down", length(down))), 
+			 group=c(as.character(groups), as.character(groups)), 
+
+			cc=c(as.character(sce$CC_state_new), as.character(sce$CC_state_new)));
+	saveRDS(tot_to_save, paste(t, call_type, "data_for_type_boxplot.rds", sep="_"))
+	pdf(paste(t, call_type, "CNV_by_celltype_relab_6Aug2020.pdf", sep="_"), width=9, height=7.5)
 	par(mfrow=c(1,2))
+	par(mar=c(8, 4, 3, 1))
 	tot <- data.frame(nCNV=c(up, down),
 			 dir=c(rep("up", length(up)), rep("down", length(down))), 
 			 group=c(groups, groups), 
@@ -89,8 +96,34 @@ for (t in names(SCE_files)) {
 
 	#group_colours <- cluster_col(max(sce$Manual_Clusters))
 	box_stats <- boxplot(tot[,1]~tot[,2]+tot[,3], col=c(del_col, dup_col), notch=TRUE, at=loc, names=loc_names, xaxt="n", ylab="Total Variant Size", xlab="Cluster", las=2);
+
+	#signigicance
+	groups <- unique(tot$group)
+	up_p_val_tab <- matrix(1, ncol=length(groups), nrow=length(groups));
+	up_med <- c();
+	dw_p_val_tab <- matrix(1, ncol=length(groups), nrow=length(groups));
+	dw_med <- c();
+
+	for (i in 1:length(groups)) {
+		up_med <- c(up_med, median(tot[tot$dir == "up" & tot$group == i, "nCNV"]))
+		dw_med <- c(dw_med, median(tot[tot$dir == "down" & tot$group == i, "nCNV"]))
+		for (j in 1:length(groups)) {
+			res_up <- wilcox.test(tot[tot$dir == "up" & tot$group == i, "nCNV"], 
+						tot[tot$dir == "up" & tot$group == j, "nCNV"])
+			res_dw <- wilcox.test(tot[tot$dir == "down" & tot$group == i, "nCNV"], 
+						tot[tot$dir == "down" & tot$group == j, "nCNV"])
+			up_p_val_tab[i,j] <- res_up$p.value
+			up_p_val_tab[j,i] <- res_up$p.value
+			dw_p_val_tab[i,j] <- res_dw$p.value
+			dw_p_val_tab[j,i] <- res_dw$p.value
+		}
+	}
+	thresh <- 0.05/choose(length(groups),2)
+	up_p_val_tab[up_p_val_tab > thresh] <- 1
+	dw_p_val_tab[dw_p_val_tab > thresh] <- 1
+
 	axis(1, at=(loc[seq(from=1, to=length(loc), by=2)]+loc[seq(from=2, to=length(loc), by=2)])/2,
-		levels(factor(groups)))
+		levels(factor(groups)), las=2)
 	legend("top", fill=c(del_col, dup_col), bty="n", c("Del", "Dup"), horiz=TRUE)
 	title(main=t)
 
