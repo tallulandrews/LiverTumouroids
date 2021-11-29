@@ -37,6 +37,16 @@ line_specific_groups <- list(CCA1=c("Progenitor", "Differentiated1", "TICs", "Di
 
 
 
+line_specific_groups <- list(CCA1=c("Progenitor", "Differentiated1",
+                        "TICs", "Differentiated2"),
+                        CCA5=c("Differentiated1", "Differentiated1", "TICs", "Quiescent", "Differentiated2"),
+                        HCC10=c("TICs", "Progenitor", "Differentiated"),
+                        HCC23=c("TICs", "Differentiated", "Progenitor"),
+                        HCC6=c("Progenitor1", "Differentiated", "Progenitor2", "TICs"),
+                        HCC24=c("Differentiated", "Progenitor1", "Progenitor2", "TICs")) # cluster names
+
+
+
 del_col="cornflowerblue"
 dup_col="brown1"
 
@@ -77,10 +87,26 @@ for (t in names(SCE_files)) {
 	tot_to_save <- data.frame(nCNV=c(up, down),
 			 dir=c(rep("up", length(up)), rep("down", length(down))), 
 			 group=c(as.character(groups), as.character(groups)), 
-
 			cc=c(as.character(sce$CC_state_new), as.character(sce$CC_state_new)));
+
 	saveRDS(tot_to_save, paste(t, call_type, "data_for_type_boxplot.rds", sep="_"))
-	pdf(paste(t, call_type, "CNV_by_celltype_relab_6Aug2020.pdf", sep="_"), width=9, height=7.5)
+
+	table(tot_to_save[,3])
+	aggregate(tot_to_save[,1], by=list(tot_to_save[,3], tot_to_save[,2]), mean)
+	aggregate(tot_to_save[,1], by=list(tot_to_save[,3], tot_to_save[,2]), median)
+	for(i in unique(tot_to_save[,3])) {
+		for (j in unique(tot_to_save[,3])) {
+			print(c(i,j))
+			p_up <- wilcox.test(tot_to_save[tot_to_save[,2]=="up" & tot_to_save[,3] == i,1], 
+						tot_to_save[tot_to_save[,2]=="up" & tot_to_save[,3] == j,1])
+			print(p_up$p.value)
+			p_dn <- wilcox.test(tot_to_save[tot_to_save[,2]=="down" & tot_to_save[,3] == i,1], 
+						tot_to_save[tot_to_save[,2]=="down" & tot_to_save[,3] == j,1])
+			print(p_dn$p.value)
+		}
+	}
+
+	pdf(paste(t, call_type, "CNV_by_celltype_relab_15Mar2021.pdf", sep="_"), width=9, height=7.5)
 	par(mfrow=c(1,2))
 	par(mar=c(8, 4, 3, 1))
 	tot <- data.frame(nCNV=c(up, down),
@@ -143,7 +169,7 @@ for (t in names(SCE_files)) {
 	title(main=t)
 	dev.off()
 
-	pdf(paste(t, call_type, "CNV_by_cellcycle_line_relab_6Aug2020.pdf", sep="_"), width=6, height=6)
+	pdf(paste(t, call_type, "CNV_by_cellcycle_line_relab_15Mar2021.pdf", sep="_"), width=6, height=6)
 	# by proliferation - lines #
 	l_up <- aggregate(tot[tot[,2]=="up",1], by=list(tot[tot[,2]=="up",4]), mean)
 	l2_up <- aggregate(tot[tot[,2]=="up",1], by=list(tot[tot[,2]=="up",4]), sd)

@@ -22,9 +22,9 @@ source("~/Collaborations/LiverOrganoids/Laura_Pipeline/0_ColourScheme.R")
 # Rename clusters
 
 line_specific_groups <- list(CCA1=c("Progenitor", "Differentiated1", "TICs", "Differentiated2"),
-                            CCA5=c("Chol", "Stress", "CSC", "Unk", "Hep"),
-                            HCC6=c("Prog1", "Stress", "Prog2", "CSC"),
-                            HCC23=c("CSC", "Clot-Hep", "Prog"),
+                            CCA5=c("Differentiated1", "Differentiated1", "TICs", "Quiescent", "Differentiated2"),
+                            HCC6=c("Progenitor1", "Differentiated", "Progenitor2", "TICs"),
+                            HCC23=c("TICs", "Differentiated", "Progenitor"),
                             #HCC10=c("Prog1", "Hep", "CSC", "iHep", "Stress", "Prog2"),
                             HCC10=c("TICs", "Progenitor", "Differentiated"),
                             #HCC24=c("Clot-Hep", "Prog1", "Prog2", "CSC", "Hep1", "Hep2"),
